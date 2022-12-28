@@ -2,16 +2,18 @@
 
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+
 const isProduction = process.env.NODE_ENV == "production";
 
-const stylesHandler = "style-loader";
+const stylesHandler = MiniCssExtractPlugin.loader;
 
 const config = {
   entry: "./src/index.ts",
   output: {
-    clean:true,
+    clean: true,
     path: path.resolve(__dirname, "dist"),
   },
   devServer: {
@@ -24,10 +26,11 @@ const config = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: "src", to: "dist" },
-       
+        { from: "src/assets", to: "assets" }
       ],
     }),
+
+    new MiniCssExtractPlugin(),
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
